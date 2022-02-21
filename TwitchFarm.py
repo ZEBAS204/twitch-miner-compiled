@@ -101,11 +101,20 @@ else:
 
                 colored=isEmpty(dLogger["colored"]),
                 color_palette=isDefined(dL_color, ColorPalette(
-                    streamer_online=isEmpty(
-                        dL_color["streamer_online"], "GREEN"),
-                    streamer_offline=isEmpty(
-                        dL_color["streamer_offline"], "RED"),
-                    bet_win=isEmpty(dL_color["bet_win"], "MAGENTA")
+                    #* [ STREAMER_OFFLINE, GAIN_FOR_RAID, GAIN_FOR_CLAIM, GAIN_FOR_WATCH,
+                    #* GAIN_FOR_WATCH_STREAK, BET_WIN, BET_LOSE, BET_REFUND, BET_FILTERS, BET_GENERAL, BET_FAILED, ]
+                    STREAMER_ONLINE = isEmpty(dL_color["STREAMER_ONLINE"]),
+                    STREAMER_OFFLINE = isEmpty(dL_color["STREAMER_OFFLINE"]),
+                    GAIN_FOR_RAID = isEmpty(dL_color["GAIN_FOR_RAID"]),
+                    GAIN_FOR_CLAIM = isEmpty(dL_color["GAIN_FOR_CLAIM"]),
+                    GAIN_FOR_WATCH = isEmpty(dL_color["GAIN_FOR_WATCH"]),
+                    GAIN_FOR_WATCH_STREAK = isEmpty(dL_color["GAIN_FOR_WATCH_STREAK"]),
+                    BET_WIN = isEmpty(dL_color["BET_WIN"]),
+                    BET_LOSE = isEmpty(dL_color["BET_LOSE"]),
+                    BET_REFUND = isEmpty(dL_color["BET_REFUND"]),
+                    BET_FILTERS = isEmpty(dL_color["BET_FILTERS"]),
+                    BET_GENERAL = isEmpty(dL_color["BET_GENERAL"]),
+                    BET_FAILED = isEmpty(dL_color["BET_FAILED"])
                 )),
 
                 telegram=isDefined(dL_tel, Telegram(
@@ -142,7 +151,7 @@ else:
                         #! by=OutcomeKeys[isEmpty(dS_bet["filter_condition"]["by"], "TOTAL_USERS")],
                         # 'by' must be [GT, LT, GTE, LTE] than value
                         #! where=Condition[isEmpty(dS_bet["filter_condition"]["where"], "LTE")],
-                        #! value=isEmpty(dS_bet["filter_condition"]["value"])
+                        value=isEmpty(dS_bet["filter_condition"]["value"])
                     ))
                 ))
             ), StreamerSettings())

@@ -57,9 +57,18 @@
 		"less": true,
 		"colored": true,
 		"color_palette": {
-			"streamer_online": "green",
-			"streamer_offline": "red",
-			"bet_win": "magenta"
+			"STREAMER_ONLINE": "GREEN",
+			"STREAMER_OFFLINE": "RED",
+			"GAIN_FOR_RAID": "YELLOW",
+			"GAIN_FOR_CLAIM": "YELLOW",
+			"GAIN_FOR_WATCH": "YELLOW",
+			"GAIN_FOR_WATCH_STREAK": "YELLOW",
+			"BET_WIN": "GREEN",
+			"BET_LOSE": "RED",
+			"BET_REFUND": "RESET",
+			"BET_FILTERS": "MAGENTA",
+			"BET_GENERAL": "BLUE",
+			"BET_FAILED": "RED"
 		},
 
 		"telegram_settings": {
