@@ -1,0 +1,12 @@
+__pycache__/
+env/
+
+# Python compiler
+build/
+dist/
+.swp
+
+# TwitchChannelPointsMiner generated folders
+analytics/
+cookies/
+logs/
