@@ -44,8 +44,6 @@ def isEmpty(value, default=None, returnBool=False):
 
 # Shortbard of isEmpty function
 # and allows and returning the value when defined
-
-
 def isDefined(value, returnDefined, returnNotDefined=None):
     if isEmpty(value, None, True):
         return returnNotDefined
@@ -82,7 +80,7 @@ else:
         # logger_settings
         dLogger = data["logger_settings"]
         dL_color = dLogger["color_palette"]
-        dL_tel = dLogger["telemetry_settings"]
+        dL_tel = dLogger["telegram_settings"]
 
         # * Configure the miner
         twitch_miner = TwitchChannelPointsMiner(

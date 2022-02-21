@@ -61,7 +61,7 @@
 			"bet_win": "magenta"
 		},
 
-		"telemetry_settings": {
+		"telegram_settings": {
 			"chat_id": 123456789,
 			"token": "123456789:shfuihreuifheuifhiu34578347",
 			"disable_notification": true,
