@@ -95,6 +95,7 @@ else:
                 console_level=isEmpty(dLogger["console_level"], logging.INFO),
                 file_level=isEmpty(dLogger["file_level"], logging.DEBUG),
 
+                auto_clear=isEmpty(dLogger["auto_clear"], True),
                 emoji=isEmpty(dLogger["emoji"], False),
                 less=isEmpty(dLogger["less"]),
 

@@ -53,7 +53,8 @@
 		"console_level": 20,
 		"file_level": 10,
 		"emoji": true,
-		"less": false,
+		"auto_clear": true,
+		"less": true,
 		"colored": true,
 		"color_palette": {
 			"streamer_online": "green",
