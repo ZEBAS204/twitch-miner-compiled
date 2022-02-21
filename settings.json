@@ -4,7 +4,14 @@
 		"password": "your-twitch-password",
 
 		"claim_drops_startup": true,
-		"priority": ["STREAK", "DROPS", "ORDER"]
+		"priority": [
+			"STREAK",
+			"DROPS",
+			"ORDER",
+			"SUBSCRIBED",
+			"POINTS_ASCENDING",
+			"POINTS_DESCEDIN"
+		]
 	},
 
 	"watch_settings": {
@@ -13,7 +20,7 @@
 			"streamer-username10",
 			"streamer-username11"
 		],
-		"followers": false,
+		"followers": true,
 		"followers_order": "ASC",
 		"followersBlackList": ["user1", "user2"]
 	},
@@ -43,22 +50,42 @@
 
 	"logger_settings": {
 		"save": true,
-		"console_level": "INFO",
-		"file_leve": "DEBUG",
+		"console_level": 20,
+		"file_level": 10,
 		"emoji": true,
 		"less": false,
 		"colored": true,
 		"color_palette": {
-			"STREAMER_online": "GREEN",
+			"streamer_online": "green",
 			"streamer_offline": "red",
-			"BET_wiN": "magenta"
+			"bet_win": "magenta"
 		},
 
 		"telemetry_settings": {
 			"chat_id": 123456789,
 			"token": "123456789:shfuihreuifheuifhiu34578347",
-			"events": [],
-			"disable_notification": true
+			"disable_notification": true,
+			"events": [
+				"STREAMER_ONLINE",
+				"STREAMER_OFFLINE",
+				"GAIN_FOR_RAID",
+				"GAIN_FOR_CLAIM",
+				"GAIN_FOR_WATCH",
+				"GAIN_FOR_WATCH_STREAK",
+				"BET_WIN",
+				"BET_LOSE",
+				"BET_REFUND",
+				"BET_FILTERS",
+				"BET_GENERAL",
+				"BET_FAILED",
+				"BET_START",
+				"BONUS_CLAIM",
+				"JOIN_RAID",
+				"DROP_CLAIM",
+				"DROP_STATUS",
+				"STREAMER_ONLINE",
+				"STREAMER_OFFLINE"
+			]
 		}
 	}
 }
