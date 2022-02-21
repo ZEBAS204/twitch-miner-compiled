@@ -4,13 +4,15 @@ import sysconfig
 
 block_cipher = None
 
-
-
+added_files = [
+    ('README.md', '.'),
+    ('settings.json', '.')
+]
 
 a = Analysis(['TwitchFarm.py'],
              pathex=[],
              binaries=[],
-             datas=[],
+             datas=added_files,
              hiddenimports=[],
              hookspath=[],
              hooksconfig={},
@@ -19,9 +21,12 @@ a = Analysis(['TwitchFarm.py'],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
              cipher=block_cipher,
-             noarchive=False)
-pyz = PYZ(a.pure, a.zipped_data,
-             cipher=block_cipher)
+             noarchive=False
+             )
+
+pyz = PYZ(
+    a.pure, a.zipped_data, cipher=block_cipher
+)
 
 exe = EXE(pyz,
           a.scripts,
@@ -40,4 +45,5 @@ exe = EXE(pyz,
           disable_windowed_traceback=False,
           target_arch=None,
           codesign_identity=None,
-          entitlements_file=None )
+          entitlements_file=None
+          )

@@ -11,7 +11,12 @@ function compile {
 
     #* You can use the inline script to compile, but will replace the spec file
     #* thus removing the custom build name
-    # pyinstaller TwitchFarm.py --name "TwitchFarm" --onefile --console --clean
+    #* On WINDOWS Replace ":" ---> ";"
+    # pyinstaller TwitchFarm.py \
+    #    --name "TwitchFarm" \
+    #    --onefile --console --clean \
+    #    --add-data="README.md:." \
+    #    --add-data="settings.json:."
 
     # Remove the Build folder
     rm -r "build"

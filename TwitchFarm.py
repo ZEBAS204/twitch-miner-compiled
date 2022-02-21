@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os
+import os, sys, shutil
 import simplejson as json
 from TwitchChannelPointsMiner import TwitchChannelPointsMiner
 from TwitchChannelPointsMiner.logger import LoggerSettings, ColorPalette
@@ -10,27 +10,25 @@ from TwitchChannelPointsMiner.classes.Settings import Priority, Events, Follower
 from TwitchChannelPointsMiner.classes.entities.Bet import Strategy, BetSettings, Condition, OutcomeKeys, FilterCondition, DelayMode
 from TwitchChannelPointsMiner.classes.entities.Streamer import Streamer, StreamerSettings
 
+#* Get absolute path to resource, works for dev and for PyInstaller
+#* https://stackoverflow.com/a/44352931
+def resource_path(relative_path):
+    base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+    return os.path.join(base_path, relative_path)
+
 
 file = "settings.json"
 
+#* Check if settings.json exist
+#* if not, restore bundled files
 if not os.path.exists(file):
-    with open(file, "w") as f:
-        f.write("""{
-    "userSettings": {
-        "username": "your-twitch-username"
-    },
+    #* Copy the bundled settings file to the current directory
+    #* and the README.md just in case...
+    #* If README exist, copying will override it
+    shutil.copy2(resource_path(file), '.')
+    shutil.copy2(resource_path('README.md'), '.')
 
-    "main_loop": {
-        "user_to_watch": [
-            "streamer-username09",
-            "streamer-username10",
-            "streamer-username11"
-        ],
-        "followers": false,
-        "followersBlackList": ["user1", "user2"]
-    }
-}""")
-        print("Please check and configure settings.json")
+    print("Please check and configure settings.json")
 
 else:
     try:
@@ -61,6 +59,7 @@ else:
         #* beacuse of that, we need to intercept them to make reading errors
         #* user-friendly and mainly not closing the console automatically.
         print(f"Script exited with return code {err.code}")
+
 
 #********************************
 #* Suppress automatically exiting
