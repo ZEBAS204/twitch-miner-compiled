@@ -42,8 +42,8 @@ def isEmpty(value, default=None, returnBool=False):
             return False
         return value
 
-# Shortbard of isEmpty function
-# and allows and returning the value when defined
+# * Shortbard of isEmpty function
+# * and allows and returning the value when defined
 def isDefined(value, returnDefined, returnNotDefined=None):
     if isEmpty(value, None, True):
         return returnNotDefined
@@ -79,90 +79,57 @@ else:
         dS_bet = dStreamer["bet"]
         # logger_settings
         dLogger = data["logger_settings"]
-        dL_color = dLogger["color_palette"]
         dL_tel = dLogger["telegram_settings"]
 
         # * Configure the miner
         twitch_miner = TwitchChannelPointsMiner(
-            username=isEmpty(dMiner["username"]),
-            password=isEmpty(dMiner["password"]),
-            claim_drops_startup=isEmpty(dMiner["claim_drops_startup"], True),
-            priority=isEmpty(dMiner["priority"]),
+            **dMiner,
+
             logger_settings=isDefined(dLogger, LoggerSettings(
-                save=isEmpty(dLogger["save"], True),
+                # * Color palette is function
+                # * Telegram is function
+                **{
+                    k: v for k, v in dLogger.items() if
+                    not k == 'color_palette' and not k == 'telegram_settings'
+                },
 
-                # * Logging intervals: https://docs.python.org/3/library/logging.html#logging-levels
-                console_level=isEmpty(dLogger["console_level"], logging.INFO),
-                file_level=isEmpty(dLogger["file_level"], logging.DEBUG),
-
-                auto_clear=isEmpty(dLogger["auto_clear"], True),
-                emoji=isEmpty(dLogger["emoji"], False),
-                less=isEmpty(dLogger["less"]),
-
-                colored=isEmpty(dLogger["colored"]),
-                color_palette=isDefined(dL_color, ColorPalette(
-                    #* [ STREAMER_OFFLINE, GAIN_FOR_RAID, GAIN_FOR_CLAIM, GAIN_FOR_WATCH,
-                    #* GAIN_FOR_WATCH_STREAK, BET_WIN, BET_LOSE, BET_REFUND, BET_FILTERS, BET_GENERAL, BET_FAILED, ]
-                    STREAMER_ONLINE = isEmpty(dL_color["STREAMER_ONLINE"]),
-                    STREAMER_OFFLINE = isEmpty(dL_color["STREAMER_OFFLINE"]),
-                    GAIN_FOR_RAID = isEmpty(dL_color["GAIN_FOR_RAID"]),
-                    GAIN_FOR_CLAIM = isEmpty(dL_color["GAIN_FOR_CLAIM"]),
-                    GAIN_FOR_WATCH = isEmpty(dL_color["GAIN_FOR_WATCH"]),
-                    GAIN_FOR_WATCH_STREAK = isEmpty(dL_color["GAIN_FOR_WATCH_STREAK"]),
-                    BET_WIN = isEmpty(dL_color["BET_WIN"]),
-                    BET_LOSE = isEmpty(dL_color["BET_LOSE"]),
-                    BET_REFUND = isEmpty(dL_color["BET_REFUND"]),
-                    BET_FILTERS = isEmpty(dL_color["BET_FILTERS"]),
-                    BET_GENERAL = isEmpty(dL_color["BET_GENERAL"]),
-                    BET_FAILED = isEmpty(dL_color["BET_FAILED"])
+                color_palette=isDefined(dLogger["color_palette"], ColorPalette(
+                    **dLogger["color_palette"]
                 )),
 
                 telegram=isDefined(dL_tel, Telegram(
-                    chat_id=isEmpty(dL_tel["chat_id"]),
-                    token=isEmpty(dL_tel["token"]),
-                    disable_notification=isEmpty(
-                        dL_tel["disable_notification"]),
-                    events=isEmpty(dL_tel["events"])
+                    **dL_tel
                 ))
-            ), LoggerSettings()),
+            )),
 
             streamer_settings=isDefined(dStreamer, StreamerSettings(
-                make_predictions=isEmpty(dStreamer["make_predictions"], False),
-                follow_raid=isEmpty(dStreamer["follow_raid"], True),
-                claim_drops=isEmpty(dStreamer["claim_drops"], True),
-                watch_streak=isEmpty(dStreamer["watch_streak"]),
-                join_chat=isEmpty(dStreamer["join_chat"], True),
+                # * Bet is function
+                **{k: v for k, v in dStreamer.items() if not k == 'bet'},
 
                 bet=isDefined(dS_bet, BetSettings(
-                    # * [MOST_VOTED, HIGH_ODDS, PERCENTAGE, SMART]
-                    strategy=Strategy[isEmpty(dS_bet["strategy"], "SMART")],
-                    percentage=isEmpty(dS_bet["percentage"]),
-                    percentage_gap=isEmpty(dS_bet["percentage_gap"]),
-                    max_points=isEmpty(dS_bet["max_points"]),
-                    stealth_mode=isEmpty(dS_bet["stealth_mode"]),
-
-                    # * [FROM_START, FROM_END, PERCENTAGE]
-                    delay_mode=DelayMode["FROM_END"],
-                    delay=isEmpty(dS_bet["delay"]),
-                    minimum_points=isEmpty(dS_bet["minimum_points"]),
+                    # * filter_condition is function
+                    **{k: v for k, v in dS_bet.items() if not k == 'filter_condition'},
 
                     filter_condition=isDefined(dS_bet["filter_condition"], FilterCondition(
-                        # [PERCENTAGE_USERS, ODDS_PERCENTAGE, ODDS, TOP_POINTS, TOTAL_USERS, TOTAL_POINTS]
-                        #! by=OutcomeKeys[isEmpty(dS_bet["filter_condition"]["by"], "TOTAL_USERS")],
-                        # 'by' must be [GT, LT, GTE, LTE] than value
-                        #! where=Condition[isEmpty(dS_bet["filter_condition"]["where"], "LTE")],
-                        value=isEmpty(dS_bet["filter_condition"]["value"])
+                        **dS_bet["filter_condition"]
                     ))
                 ))
-            ), StreamerSettings())
+            ))
         )
+
+        # * Analytics web-server
+        isDefined(data["analytics_settings"],
+                  data["analytics_settings"]["enabled"] and twitch_miner.analytics(**{
+                      k: v for k, v in data["analytics_settings"].items() if not k == 'enabled'
+                  })
+                  )
 
         # * Start mining channels
         twitch_miner.mine(
             isEmpty(dWatch["user_to_watch"]),
-            blacklist=isEmpty(dWatch["followersBlackList"]),
-            followers=isEmpty(dWatch["followers"]),
-            #! followers_order=FollowersOrder[isEmpty(dWatch["followers_order"], "ASC")]
+
+            # * Ignore user_to_watch as is an empty array
+            **{k: v for k, v in dWatch.items() if not k == 'user_to_watch'}
         )
 
     except OSError as err:

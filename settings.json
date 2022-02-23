@@ -21,8 +21,8 @@
 			"streamer-username11"
 		],
 		"followers": true,
-		"followers_order": "ASC",
-		"followersBlackList": ["user1", "user2"]
+		"followers_order": "FollowersOrder.ASC",
+		"blacklist": ["user1", "user2"]
 	},
 
 	"streamer_settings": {
@@ -32,7 +32,7 @@
 		"watch_streak": true,
 		"join_chat": true,
 		"bet": {
-			"strategy": "SMART",
+			"strategy": "Strategy.SMART",
 			"percentage": 5,
 			"percentage_gap": 20,
 			"max_points": 50000,
@@ -52,9 +52,9 @@
 		"save": true,
 		"console_level": 20,
 		"file_level": 10,
-		"emoji": true,
+		"emoji": false,
 		"auto_clear": true,
-		"less": true,
+		"less": false,
 		"colored": true,
 		"color_palette": {
 			"STREAMER_ONLINE": "GREEN",
@@ -97,5 +97,12 @@
 				"STREAMER_OFFLINE"
 			]
 		}
+	},
+
+	"analytics_settings": {
+		"enabled": false,
+		"host": "127.0.0.1",
+		"port": 5000,
+		"refresh": 5
 	}
 }
