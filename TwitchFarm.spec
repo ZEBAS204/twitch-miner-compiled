@@ -5,7 +5,6 @@ import sysconfig
 block_cipher = None
 
 added_files = [
-    ('README.md', '.'),
     ('settings.json', '.')
 ]
 
@@ -22,7 +21,7 @@ a = Analysis(['TwitchFarm.py'],
              win_private_assemblies=False,
              cipher=block_cipher,
              noarchive=False
-             )
+            )
 
 pyz = PYZ(
     a.pure, a.zipped_data, cipher=block_cipher
@@ -34,7 +33,7 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           [],
-          name=f'TwitchFarm-{sysconfig.get_platform()}',
+          name='TwitchFarm',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,

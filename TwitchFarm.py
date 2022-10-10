@@ -1,11 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import os
 import sys
-import shutil
-import traceback
+from os import path
 import logging
+import traceback
+from shutil import copy2
 import simplejson as json
 from TwitchChannelPointsMiner import TwitchChannelPointsMiner
 from TwitchChannelPointsMiner.logger import LoggerSettings, ColorPalette
@@ -14,21 +14,21 @@ from TwitchChannelPointsMiner.classes.Settings import Priority, Events, Follower
 from TwitchChannelPointsMiner.classes.entities.Bet import Strategy, BetSettings, Condition, OutcomeKeys, FilterCondition, DelayMode
 from TwitchChannelPointsMiner.classes.entities.Streamer import Streamer, StreamerSettings
 
-# * Get absolute path to resource, works for dev and for PyInstaller
-# * https://stackoverflow.com/a/44352931
-
 
 def resource_path(relative_path):
-    base_path = getattr(sys, '_MEIPASS', os.path.dirname(
-        os.path.abspath(__file__)))
-    return os.path.join(base_path, relative_path)
+    # * Get absolute path to resource, works for dev and for PyInstaller
+    # * https://stackoverflow.com/a/44352931
+    base_path = getattr(sys, '_MEIPASS', path.dirname(
+        path.abspath(__file__)))
+    return path.join(base_path, relative_path)
 
 
 # * Allows to check values and restore their defaults
-# * if is empty, returning None will use the default value
+# * if is empty, will return None and use the default value
 # * of the TwitchChannelPointsMiner for that key
-def isEmpty(value, default=None, returnBool=False):
+def isEmpty(value=None, default=None, returnBool=False):
     # ? Check if value is None
+    # ? Check if value is an empty string
     # ? Check if value is object and is empty
     # ? Check if value is array and is empty
     # print(f"CHECKING ATTRIBUTE: {value} - DEFAULT: {default}, RETURN: {returnBool}")
@@ -50,19 +50,33 @@ def isDefined(value, returnDefined, returnNotDefined=None):
     return returnDefined
 
 
-file = "settings.json"
+def deep_get(data, keys, default=None):
+    """
+    Example:
+        d = {'meta': {'status': 'OK', 'status_code': 200}}
+        deep_get(d, ['meta', 'status_code'])          # => 200
+        deep_get(d, ['garbage', 'status_code'])       # => None
+        deep_get(d, ['meta', 'garbage'], default='-') # => '-'
 
-#! When debugging should be enabled to skip the file check
-skipMe = False
+    See: https://stackoverflow.com/a/50173148
+    """
+    assert type(keys) is list
+    if data is None:
+        return default
+    if not keys:
+        return data
+    return deep_get(data.get(keys[0]), keys[1:], default)
+
 
 # * Check if settings.json exist
 # * if not, restore bundled files
-if not skipMe and not os.path.exists(file):
+file = "settings.json"
+if not path.exists(file):
     # * Copy the bundled settings file to the current directory
     # * and the README.md just in case...
-    # * If README exist, copying will override it
-    shutil.copy2(resource_path(file), '.')
-    shutil.copy2(resource_path('README.md'), '.')
+    copy2(resource_path(file), '.')
+    if not path.exists('README.md'):
+        copy2(resource_path('README.md'), '.')
 
     print("Please check and configure settings.json")
 
@@ -72,14 +86,14 @@ else:
         data = json.loads(f.read())
 
         # * Make life easier
-        dMiner = data["miner_settings"]
-        dWatch = data["watch_settings"]
+        dMiner = deep_get(data, ["miner_settings"], {})
+        dWatch = deep_get(data, ["watch_settings"], {})
         # streamer_settings
-        dStreamer = data["streamer_settings"]
-        dS_bet = dStreamer["bet"]
+        dStreamer = deep_get(data, ["streamer_settings"], {})
+        dS_bet = deep_get(data, ["streamer_settings", "bet"], {})
         # logger_settings
-        dLogger = data["logger_settings"]
-        dL_tel = dLogger["telegram_settings"]
+        dLogger = deep_get(data, ["logger_settings"], {})
+        dL_tel = deep_get(data, ["logger_settings", "telegram_settings"], {})
 
         # * Configure the miner
         twitch_miner = TwitchChannelPointsMiner(
@@ -97,9 +111,9 @@ else:
                     **dLogger["color_palette"]
                 )),
 
-                telegram=isDefined(dL_tel, Telegram(
-                    **dL_tel
-                ))
+                telegram=isDefined(
+                    dL_tel, Telegram(**dL_tel)
+                )
             )),
 
             streamer_settings=isDefined(dStreamer, StreamerSettings(
@@ -118,15 +132,16 @@ else:
         )
 
         # * Analytics web-server
-        isDefined(data["analytics_settings"],
-                  data["analytics_settings"]["enabled"] and twitch_miner.analytics(**{
-                      k: v for k, v in data["analytics_settings"].items() if not k == 'enabled'
-                  })
-                  )
+        if deep_get(data, ["analytics_settings", "enabled"]):
+            twitch_miner.analytics(**{
+                # * Enabled must be ignored and it's only there to allow
+                # * to toggle analytics without removing the whole object
+                k: v for k, v in data["analytics_settings"].items() if not k == 'enabled'
+            })
 
         # * Start mining channels
         twitch_miner.mine(
-            isEmpty(dWatch["user_to_watch"]),
+            isEmpty(dWatch["user_to_watch"], []),
 
             # * Ignore user_to_watch as is an empty array
             **{k: v for k, v in dWatch.items() if not k == 'user_to_watch'}
@@ -151,14 +166,12 @@ else:
 
     except SystemExit as err:
         # * TwitchChannelPointsMiner contains exit() functions
-        # * beacuse of that, we need to intercept them to make reading errors
-        # * user-friendly and mainly not closing the console automatically.
+        # * because of that, we need to intercept them to make reading errors
+        # * user-friendly and mainly prevent closing the console automatically.
         print(f"Script exited with return code {err.code}")
 
 
-# ********************************
-# * Suppress automatically exiting
-# * But if user spams keys while waiting to exit, the buffer will get full
-# * and skipped leading to automatically closing the console...
-# ********************************
+# **********************************
+# * Suppress automatically exiting *
+# **********************************
 input("\n[ PRESS ENTER TO EXIT ]")
