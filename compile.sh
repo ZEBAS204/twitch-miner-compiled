@@ -9,15 +9,6 @@ function compile {
     #* Yes, the spec file is a python script
     pyinstaller TwitchFarm.spec
 
-    #* You can use the inline script to compile, but will replace the spec file
-    #* thus removing the custom build name
-    #* On WINDOWS Replace ":" ---> ";"
-    # pyinstaller TwitchFarm.py \
-    #    --name "TwitchFarm" \
-    #    --onefile --console --clean \
-    #    --add-data="README.md:." \
-    #    --add-data="settings.json:."
-
     # Remove the Build folder
     rm -r "build"
 }
