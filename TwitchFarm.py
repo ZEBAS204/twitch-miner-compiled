@@ -11,15 +11,24 @@ from TwitchChannelPointsMiner import TwitchChannelPointsMiner
 from TwitchChannelPointsMiner.logger import LoggerSettings, ColorPalette
 from TwitchChannelPointsMiner.classes.Telegram import Telegram
 from TwitchChannelPointsMiner.classes.Settings import Priority, Events, FollowersOrder
-from TwitchChannelPointsMiner.classes.entities.Bet import Strategy, BetSettings, Condition, OutcomeKeys, FilterCondition, DelayMode
-from TwitchChannelPointsMiner.classes.entities.Streamer import Streamer, StreamerSettings
+from TwitchChannelPointsMiner.classes.entities.Bet import (
+    Strategy,
+    BetSettings,
+    Condition,
+    OutcomeKeys,
+    FilterCondition,
+    DelayMode,
+)
+from TwitchChannelPointsMiner.classes.entities.Streamer import (
+    Streamer,
+    StreamerSettings,
+)
 
 
 def resource_path(relative_path):
     # * Get absolute path to resource, works for dev and for PyInstaller
     # * https://stackoverflow.com/a/44352931
-    base_path = getattr(sys, '_MEIPASS', path.dirname(
-        path.abspath(__file__)))
+    base_path = getattr(sys, "_MEIPASS", path.dirname(path.abspath(__file__)))
     return path.join(base_path, relative_path)
 
 
@@ -41,6 +50,7 @@ def isEmpty(value=None, default=None, returnBool=False):
         if returnBool:
             return False
         return value
+
 
 # * Shortbard of isEmpty function
 # * and allows and returning the value when defined
@@ -74,9 +84,9 @@ file = "settings.json"
 if not path.exists(file):
     # * Copy the bundled settings file to the current directory
     # * and the README.md just in case...
-    copy2(resource_path(file), '.')
-    if not path.exists('README.md'):
-        copy2(resource_path('README.md'), '.')
+    copy2(resource_path(file), ".")
+    if not path.exists("README.md"):
+        copy2(resource_path("README.md"), ".")
 
     print("Please check and configure settings.json")
 
@@ -98,53 +108,64 @@ else:
         # * Configure the miner
         twitch_miner = TwitchChannelPointsMiner(
             **dMiner,
-
-            logger_settings=isDefined(dLogger, LoggerSettings(
-                # * Color palette is function
-                # * Telegram is function
-                **{
-                    k: v for k, v in dLogger.items() if
-                    not k == 'color_palette' and not k == 'telegram_settings'
-                },
-
-                color_palette=isDefined(dLogger["color_palette"], ColorPalette(
-                    **dLogger["color_palette"]
-                )),
-
-                telegram=isDefined(
-                    dL_tel, Telegram(**dL_tel)
-                )
-            )),
-
-            streamer_settings=isDefined(dStreamer, StreamerSettings(
-                # * Bet is function
-                **{k: v for k, v in dStreamer.items() if not k == 'bet'},
-
-                bet=isDefined(dS_bet, BetSettings(
-                    # * filter_condition is function
-                    **{k: v for k, v in dS_bet.items() if not k == 'filter_condition'},
-
-                    filter_condition=isDefined(dS_bet["filter_condition"], FilterCondition(
-                        **dS_bet["filter_condition"]
-                    ))
-                ))
-            ))
+            logger_settings=isDefined(
+                dLogger,
+                LoggerSettings(
+                    # * Color palette is a function
+                    # * Telegram is a function
+                    **{
+                        k: v
+                        for k, v in dLogger.items()
+                        if not k == "color_palette" and not k == "telegram_settings"
+                    },
+                    color_palette=isDefined(
+                        dLogger["color_palette"],
+                        ColorPalette(**dLogger["color_palette"]),
+                    ),
+                    telegram=isDefined(dL_tel, Telegram(**dL_tel)),
+                ),
+            ),
+            streamer_settings=isDefined(
+                dStreamer,
+                StreamerSettings(
+                    # * Bet is function
+                    **{k: v for k, v in dStreamer.items() if not k == "bet"},
+                    bet=isDefined(
+                        dS_bet,
+                        BetSettings(
+                            # * filter_condition is function
+                            **{
+                                k: v
+                                for k, v in dS_bet.items()
+                                if not k == "filter_condition"
+                            },
+                            filter_condition=isDefined(
+                                dS_bet["filter_condition"],
+                                FilterCondition(**dS_bet["filter_condition"]),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         )
 
         # * Analytics web-server
         if deep_get(data, ["analytics_settings", "enabled"]):
-            twitch_miner.analytics(**{
-                # * Enabled must be ignored and it's only there to allow
-                # * to toggle analytics without removing the whole object
-                k: v for k, v in data["analytics_settings"].items() if not k == 'enabled'
-            })
+            twitch_miner.analytics(
+                **{
+                    # * Enabled must be ignored and it's only there to allow
+                    # * to toggle analytics without removing the whole object
+                    k: v
+                    for k, v in data["analytics_settings"].items()
+                    if not k == "enabled"
+                }
+            )
 
         # * Start mining channels
         twitch_miner.mine(
             isEmpty(dWatch["user_to_watch"], []),
-
             # * Ignore user_to_watch as is an empty array
-            **{k: v for k, v in dWatch.items() if not k == 'user_to_watch'}
+            **{k: v for k, v in dWatch.items() if not k == "user_to_watch"},
         )
 
     except OSError as err:
