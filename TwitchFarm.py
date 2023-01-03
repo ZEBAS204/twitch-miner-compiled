@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
 import sys
@@ -32,10 +32,12 @@ def resource_path(relative_path):
     return path.join(base_path, relative_path)
 
 
-# * Allows to check values and restore their defaults
-# * if is empty, will return None and use the default value
-# * of the TwitchChannelPointsMiner for that key
 def isEmpty(value=None, default=None, returnBool=False):
+    """
+    Allows to check values and restore their defaults
+    if is empty, will return None and use the default value
+    of the TwitchChannelPointsMiner for that key.
+    """
     # ? Check if value is None
     # ? Check if value is an empty string
     # ? Check if value is object and is empty
@@ -116,7 +118,7 @@ else:
                     **{
                         k: v
                         for k, v in dLogger.items()
-                        if not k == "color_palette" and not k == "telegram_settings"
+                        if k != "color_palette" and k != "telegram_settings"
                     },
                     color_palette=isDefined(
                         dLogger["color_palette"],
@@ -129,7 +131,7 @@ else:
                 dStreamer,
                 StreamerSettings(
                     # * Bet is function
-                    **{k: v for k, v in dStreamer.items() if not k == "bet"},
+                    **{k: v for k, v in dStreamer.items() if k != "bet"},
                     bet=isDefined(
                         dS_bet,
                         BetSettings(
@@ -137,7 +139,7 @@ else:
                             **{
                                 k: v
                                 for k, v in dS_bet.items()
-                                if not k == "filter_condition"
+                                if k != "filter_condition"
                             },
                             filter_condition=isDefined(
                                 dS_bet["filter_condition"],
@@ -157,7 +159,7 @@ else:
                     # * to toggle analytics without removing the whole object
                     k: v
                     for k, v in data["analytics_settings"].items()
-                    if not k == "enabled"
+                    if k != "enabled"
                 }
             )
 
@@ -165,7 +167,7 @@ else:
         twitch_miner.mine(
             isEmpty(dWatch["user_to_watch"], []),
             # * Ignore user_to_watch as is an empty array
-            **{k: v for k, v in dWatch.items() if not k == "user_to_watch"},
+            **{k: v for k, v in dWatch.items() if k != "user_to_watch"},
         )
 
     except OSError as err:
