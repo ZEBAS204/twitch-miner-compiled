@@ -1,9 +1,5 @@
 # Twitch_idle_farm
 
-## 🎯 About Twitch Idle Farm
-
-{{{   Describe your project   }}}
-
 ## 📛 What is and what is Not
 
 * ✅ Intended to use without installing python
@@ -12,15 +8,13 @@
 
 * ✅ Easy JSON configuration
 
-* ✅ Console accessible
-
-* ❌ **Replacement of the original project*
+* ❌ **Replacement of the original project**
 
 * ❌ **Up-to-date version:** The python dependency needs to be manually updated and fixes incompatibilities and re-compile it again manually.
 
-* ❌ **1:1 with the actual project:** Even though the configuration follows the project examples, some manual changes need to be done to allow JSON. Please refer to [#Configuration]() for examples and differences.
+* ❌ **1:1 with the actual project:** Even though the configuration follows the project examples, some manual changes need to be done to allow JSON configuration.
 
-* ❌ Error-free:** The `settings.json` keys need to follow the project configuration. The user is responsible for setting this error-free.
+* ❌ **Error-free:** The `settings.json` keys need to follow the project configuration. The user is responsible for setting this error-free.
 
 * ❌ **Python-less version:** Under the hood, the executable is extracting and using python inside the Temporary folder of your OS.
 
@@ -32,28 +26,20 @@ You can compile it by yourself or use the precompiled binaries listed below on t
 * [Linux]()
 * Mac: No support
 
-## ⚙️ Configuration
-
-### Differences
-
-<br>
-
----
-
 ## Development
 
 ### 📂 Requirements
 
-Before starting :checkered_flag:, you need to have [Git](https://git-scm.com) and [Python]() installed.
+Before starting, you will need to have [Git](https://git-scm.com) and [Python3](https://www.python.org/) installed.
 
 ### 🚀 Running
 
 ```bash
 # Clone this project
-$ git clone https://github.com/{{YOUR_GITHUB_USERNAME}}/_twitch_idle_farm
+$ git clone https://github.com/ZEBAS204/twitch-miner-compiled
 
 # Access
-$ cd _twitch_idle_farm
+$ cd twitch-miner-compiled
 
 # Create virtual environment (use the one you wish)
 $ python venv venv
@@ -91,21 +77,9 @@ $ ./compile.sh
 # Or without the help of the bash script
 $ pyinstaller TwitchFarm.spec
 
-# Or if you don't wish to use the provided spec file
-# Note that NO ARCHITECTURE NOT OS will be embedded to the name
-# If you are on WINDOWS Replace ":" ---> ";"
-$ pyinstaller TwitchFarm.py \
-    --name "TwitchFarm" \
-    --onefile --console --clean \
-    --add-data="README.md:." \
-    --add-data="settings.json:."
-
 # The executable will be placed inside the ./dist folder
-# as TwitchFarm-{OS_name_and_architecture}.{OS_exec_extension}
 ```
 
 ## 📝 License
 
-This project is under license from GNU V3. For more details, see the [LICENSE](LICENSE.md) file.
-
-<a href="#top">Back to top</a>
+The project follows the GNU V3 license and no modifications have been made to the original code. Instead, the project is a wrapper for the original code. This means that the project provides an interface for accessing and utilizing the functionality of the original code, without modifying its underlying implementation.
