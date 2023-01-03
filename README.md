@@ -1,5 +1,7 @@
 # Twitch_idle_farm
 
+This is just a compiled version of [Twitch Channel Points Miner v2](https://github.com/Tkd-Alex/Twitch-Channel-Points-Miner-v2).
+
 ## 📛 What is and what is Not
 
 * ✅ Intended to use without installing python
