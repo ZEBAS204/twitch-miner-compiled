@@ -22,10 +22,10 @@ This is just a compiled version of [Twitch Channel Points Miner v2](https://gith
 
 ## ⏬ Downloading
 
-You can compile it by yourself or use the precompiled binaries listed below on the [releases]() page:
+You can compile it by yourself or use the precompiled binaries listed below on the [releases](https://github.com/ZEBAS204/twitch-miner-compiled/releases) page:
 
-* [Windows]()
-* [Linux]()
+* [Windows](https://github.com/ZEBAS204/twitch-miner-compiled/releases/latest/download/TwitchFarm-win-amd64.exe)
+* [Linux](https://github.com/ZEBAS204/twitch-miner-compiled/releases/latest/download/TwitchFarm-linux-x86_64)
 * Mac: No support
 
 ## Development
