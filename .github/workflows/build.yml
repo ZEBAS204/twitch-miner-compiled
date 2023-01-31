@@ -3,7 +3,7 @@ name: Build-All-Platforms
 # Controls when the workflow will run
 on:
   release:
-    types: [published]
+    types: [created]
 
 jobs:
   build:
