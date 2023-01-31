@@ -1,9 +1,7 @@
 name: Build-All-Platforms
 
 # Controls when the workflow will run
-on:
-  release:
-    types: [created]
+on: release
 
 jobs:
   build:
