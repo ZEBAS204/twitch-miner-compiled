@@ -42,4 +42,4 @@ jobs:
       - name: Release binaries
         uses: softprops/action-gh-release@v1
         with:
-          files: ./dist/TwitchFarm.*
+          files: ./dist/*
