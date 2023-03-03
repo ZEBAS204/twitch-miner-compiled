@@ -85,10 +85,7 @@ def deep_get(data, keys, default=None):
 file = "settings.json"
 if not path.exists(file):
     # * Copy the bundled settings file to the current directory
-    # * and the README.md just in case...
     copy2(resource_path(file), ".")
-    if not path.exists("README.md"):
-        copy2(resource_path("README.md"), ".")
 
     print("Please check and configure settings.json")
 
