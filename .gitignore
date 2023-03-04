@@ -1,4 +1,5 @@
 __pycache__/
+venv/
 env/
 
 # Python compiler
@@ -9,4 +10,9 @@ dist/
 # TwitchChannelPointsMiner generated folders
 analytics/
 cookies/
+assets/
 logs/
+
+# https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2
+# script folder name
+TwitchChannelPointsMiner/
