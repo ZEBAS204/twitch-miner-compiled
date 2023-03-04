@@ -31,7 +31,12 @@ jobs:
       - name: Install Dependencies
         run: |
           python -m pip install -r requirements.txt
-        
+      
+      # Download lastest version of TwitchChannelPointsMiner
+      - name: Download TwitchChannelPointsMiner script repo
+        run: ./download_directory.sh
+        shell: bash
+      
       # Build python script into a stand-alone exe
       # using pyinstaller. No virtual environment needed.
       - name: Build script
