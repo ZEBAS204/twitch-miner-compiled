@@ -24,7 +24,7 @@ if [[ -z "$VIRTUAL_ENV" ]]; then
 
     echo "Compiling should be performed inside of a virtual environment" \
         "to prevent errors and reduce bundle size."
-    echo "If you want to ingonre this warning, pass '--ignore-warning' as argument."
+    echo "If you want to ignore this warning, pass '--ignore-warning' as an argument."
     echo ""
     exit 1
 
