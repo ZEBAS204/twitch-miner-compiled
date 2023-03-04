@@ -1,6 +1,10 @@
-# Twitch_idle_farm
+# Twitch Idle Farm
 
-This is just a compiled version of [Twitch Channel Points Miner v2](https://github.com/Tkd-Alex/Twitch-Channel-Points-Miner-v2).
+This is just a compiled version of [Twitch Channel Points Miner v2 (forked)](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2)
+
+> **Note**
+>
+> The original version of [Twitch Channel Points Miner v2](https://github.com/Tkd-Alex/Twitch-Channel-Points-Miner-v2) is currently unmaintained. Instead, this project uses an up-to-date fork by [rdavydov](https://github.com/rdavydov).
 
 ## 📛 What is and what is Not
 
@@ -28,6 +32,56 @@ You can compile it by yourself or use the precompiled binaries listed below on t
 * [Linux](https://github.com/ZEBAS204/twitch-miner-compiled/releases/latest/download/TwitchFarm-linux-x86_64)
 * Mac: No support
 
+### 🏃‍♂️ First Steps
+
+1. After downloading it, on the first run, a `settings.json` will be created so you can configure it.
+2. Go to the `settings.json` file, and configure your username (replace `your-}twitch-username` value of `miner_settings.username`) and password (replace `your-twitch-password` value of `miner_settings.password`)
+   * You can remove the password key:value pair if you want to write it manually on the console.
+
+3. Configure the rest to your liking (see [#Configuration differences](#-configuration-differences) to avoid errors)
+4. Open the executable and follow the instructions if needed.
+
+> **Warning**
+> **Pasting your password does not work as intended, please write it manually or set up in `settings.json` as indicated in the second step.**
+
+#### 📜 Settings Templates
+
+The [`/settings.json`](/settings.json) file contains all the available configurations that are supported but, not limited to newer ones.
+
+If you want to use pre-configured basic templates, you can hop and take a look into the [`/examples`](/examples) folder and copy any of them.
+
+### 🔄 Updating
+
+To install an update, just replace the executable file with the newer executable version downloaded.
+
+If an error occurs with your old settings and you are not sure how to solve it, you can always delete the `settings.json` file so the executable can generate a valid version automatically.
+
+### 🔀 Configuration differences
+
+The main difference between the `settings.json` file with the actual python-written configuration of the original project is how functions and mapped values are handled:
+
+> **Note** You can compare the code of [How to use](https://github.com/rdavydov/Twitch-Channel-Points-Miner-v2#how-to-use) section and the [settings.json](/settings.json) file to better understand these differences!
+
+* **Mapped values**
+  * Priority like `Priority.STREAK`, colors `Fore.GREEN`, discord/telegram events like `Events.STREAMER_ONLINE`, etc are written as strings without the event (e.g. `STREAK`, `GREEN`, `STREAMER_ONLINE`, etc)
+
+* **Functions**
+  * Functions are written as objects with the key being their variable name and, inside that object, their arguments as key-value pairs. E.g. `color_palette=ColorPalette(...)` is wrote as `color_palette: { "streamer_offline": "red", ... }`
+  * Functions can nest other functions, just follow the same logic as above.
+  * Reminder: new functions need to be manually added.
+
+* **Logger**
+  * The log level (used in `file_level`, `console_level`, etc) is written as an integer. For example, `logging.DEBUG` becomes `10`, `logging.INFO` becomes `20`, etc.
+  * Logging will always follow the [logging module of python](https://docs.python.org/3/library/logging.html#logging-levels):
+    * `CRITICAL`: 50
+    * `ERROR`: 40
+    * `WARNING`: 30
+    * `INFO`: 20
+    * `DEBUG`: 10
+    * `NOTSET`: 0
+
+---
+
 ## Development
 
 ### 📂 Requirements
@@ -44,13 +98,16 @@ $ git clone https://github.com/ZEBAS204/twitch-miner-compiled
 $ cd twitch-miner-compiled
 
 # Create virtual environment (use the one you wish)
-$ python venv venv
+$ python -m venv venv
 
 # Activate virtual environment
 $ source venv/Scripts/Activate
 
 # Install dependencies
 $ py -m pip install -r requirements.txt
+
+# Download TwitchChannelPointsMiner's scripts
+$ ./download_directory.sh
 
 # Run the script locally
 $ py TwitchFarm.py
