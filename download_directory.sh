@@ -8,4 +8,4 @@ repo="rdavydov/Twitch-Channel-Points-Miner-v2"
 
 # This script will download the repository as a tar file and extract the folder
 # "TwitchChannelPointsMiner" automatically into the root directory.
-curl -L https://api.github.com/repos/${repo}/tarball | tar xz --wildcards "*/TwitchChannelPointsMiner" --strip-components=1
+curl -L https://api.github.com/repos/${repo}/tarball | tar -xz --wildcards "*/TwitchChannelPointsMiner" --strip-components=1

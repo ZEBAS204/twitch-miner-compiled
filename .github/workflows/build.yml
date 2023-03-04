@@ -34,7 +34,9 @@ jobs:
       
       # Download lastest version of TwitchChannelPointsMiner
       - name: Download TwitchChannelPointsMiner script repo
-        run: ./download_directory.sh
+        run: |
+          chmod +x ./download_directory.sh
+          ./download_directory.sh
         shell: bash
       
       # Build python script into a stand-alone exe
