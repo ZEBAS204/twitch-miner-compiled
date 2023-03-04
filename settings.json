@@ -4,6 +4,8 @@
 		"password": "your-twitch-password",
 
 		"claim_drops_startup": true,
+		"enable_analytics": false,
+		"disable_ssl_cert_verification": false,
 		"priority": [
 			"STREAK",
 			"DROPS",
@@ -30,7 +32,7 @@
 		"follow_raid": true,
 		"claim_drops": true,
 		"watch_streak": true,
-		"join_chat": true,
+		"chat": "ALWAYS",
 		"bet": {
 			"strategy": "Strategy.SMART",
 			"percentage": 5,
@@ -49,7 +51,7 @@
 	},
 
 	"logger_settings": {
-		"save": true,
+		"save": false,
 		"console_level": 20,
 		"file_level": 10,
 		"emoji": false,
@@ -81,7 +83,6 @@
 				"GAIN_FOR_RAID",
 				"GAIN_FOR_CLAIM",
 				"GAIN_FOR_WATCH",
-				"GAIN_FOR_WATCH_STREAK",
 				"BET_WIN",
 				"BET_LOSE",
 				"BET_REFUND",
@@ -92,9 +93,29 @@
 				"BONUS_CLAIM",
 				"JOIN_RAID",
 				"DROP_CLAIM",
-				"DROP_STATUS",
+				"DROP_STATUS"
+			]
+		},
+
+		"discord_settings": {
+			"webhook_api": "https://discord.com/api/webhooks/0123456789/0a1B2c3D4e5F6g7H8i9J",
+			"events": [
 				"STREAMER_ONLINE",
-				"STREAMER_OFFLINE"
+				"STREAMER_OFFLINE",
+				"GAIN_FOR_RAID",
+				"GAIN_FOR_CLAIM",
+				"GAIN_FOR_WATCH",
+				"BET_WIN",
+				"BET_LOSE",
+				"BET_REFUND",
+				"BET_FILTERS",
+				"BET_GENERAL",
+				"BET_FAILED",
+				"BET_START",
+				"BONUS_CLAIM",
+				"JOIN_RAID",
+				"DROP_CLAIM",
+				"DROP_STATUS"
 			]
 		}
 	},

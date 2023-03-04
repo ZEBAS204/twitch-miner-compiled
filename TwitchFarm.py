@@ -10,6 +10,7 @@ import simplejson as json
 from TwitchChannelPointsMiner import TwitchChannelPointsMiner
 from TwitchChannelPointsMiner.logger import LoggerSettings, ColorPalette
 from TwitchChannelPointsMiner.classes.Telegram import Telegram
+from TwitchChannelPointsMiner.classes.Discord import Discord
 from TwitchChannelPointsMiner.classes.Settings import Priority, Events, FollowersOrder
 from TwitchChannelPointsMiner.classes.entities.Bet import (
     Strategy,
@@ -80,6 +81,43 @@ def deep_get(data, keys, default=None):
     return deep_get(data.get(keys[0]), keys[1:], default)
 
 
+def safe_dict(
+    object, key_to_extract=None, ignored_keys=[], callback=None, default=None
+):
+    """
+    Safely get a dictionary from other dictionary with the ability to filter the
+    returned keys.-
+    Note that the idea of this function is to avoid using setdefault all over the place.
+    """
+    if isEmpty(object, returnBool=True):
+        return default
+
+    # We know the dictionary is not empty and if not key_to_extract was set,
+    # return the same dictionary to avoid any error.
+    if not key_to_extract:
+        return object
+
+    if key_to_extract in object and not isEmpty(
+        object.get(key_to_extract), returnBool=True
+    ):
+        if not ignored_keys:
+            if callback:
+                return callback(**object[key_to_extract])
+            return object[key_to_extract]
+        else:
+            # To avoid any mutation of the current dictionary,
+            # return a new dictionary with the filtered keys
+            temp: dict = object[key_to_extract].copy()
+            for key in ignored_keys:
+                if key in temp.keys():
+                    del temp[key]
+            if callback:
+                return callback(**temp)
+            return temp
+
+    return default
+
+
 # * Check if settings.json exist
 # * if not, restore bundled files
 file = "settings.json"
@@ -110,44 +148,50 @@ else:
         # * Configure the miner
         twitch_miner = TwitchChannelPointsMiner(
             **dMiner,
+            #! If no logger_settings is defined, and we create the variable
+            #! an error will be raised as is REQUIRED if defined
             logger_settings=isDefined(
                 dLogger,
                 LoggerSettings(
                     # * Color palette is a function
                     # * Telegram is a function
-                    **{
-                        k: v
-                        for k, v in dLogger.items()
-                        if k != "color_palette" and k != "telegram_settings"
-                    },
-                    color_palette=isDefined(
-                        dLogger["color_palette"],
-                        ColorPalette(**dLogger["color_palette"]),
+                    safe_dict(
+                        dLogger, ignored_keys=["color_palette", "telegram_settings"]
                     ),
-                    telegram=isDefined(dL_tel, Telegram(**dL_tel)),
+                    #! If no color_palette is defined, and we create the variable
+                    #! an error will be raised as is REQUIRED if defined
+                    color_palette=safe_dict(
+                        dLogger, key_to_extract="color_palette", callback=ColorPalette
+                    ),
+                    telegram=safe_dict(
+                        dLogger, key_to_extract="telegram_settings", callback=Telegram
+                    ),
+                    discord=safe_dict(
+                        dLogger, key_to_extract="discord_settings", callback=Discord
+                    ),
                 ),
+                # ! logger_settings default value
+                LoggerSettings(None),
             ),
             streamer_settings=isDefined(
                 dStreamer,
                 StreamerSettings(
                     # * Bet is function
-                    **{k: v for k, v in dStreamer.items() if k != "bet"},
+                    safe_dict(dStreamer, ignored_keys=["bet"]),
                     bet=isDefined(
                         dS_bet,
                         BetSettings(
                             # * filter_condition is function
-                            **{
-                                k: v
-                                for k, v in dS_bet.items()
-                                if k != "filter_condition"
-                            },
+                            safe_dict(dS_bet, ignored_keys=["filter_condition"]),
                             filter_condition=isDefined(
-                                dS_bet["filter_condition"],
-                                FilterCondition(**dS_bet["filter_condition"]),
+                                dS_bet.get("filter_condition"),
+                                FilterCondition(safe_dict(dLogger, "filter_condition")),
                             ),
                         ),
                     ),
                 ),
+                # ! streamer_settings default value
+                StreamerSettings(None),
             ),
         )
 
@@ -165,7 +209,8 @@ else:
 
         # * Start mining channels
         twitch_miner.mine(
-            isEmpty(dWatch["user_to_watch"], []),
+            # * Ignore user_to_watch as can be an optional array
+            safe_dict(dWatch, "user_to_watch", default=[]),
             # * Ignore user_to_watch as is an empty array
             **{k: v for k, v in dWatch.items() if k != "user_to_watch"},
         )

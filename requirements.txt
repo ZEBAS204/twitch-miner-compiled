@@ -1,3 +1,9 @@
 pyinstaller==4.9
 simplejson==3.17.6
-Twitch-Channel-Points-Miner-v2==2.0.7
+requests
+emoji
+millify
+colorama
+flask
+irc
+pandas
