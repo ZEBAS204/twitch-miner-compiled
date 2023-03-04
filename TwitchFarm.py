@@ -88,6 +88,9 @@ if not path.exists(file):
     copy2(resource_path(file), ".")
 
     print("Please check and configure settings.json")
+    # * Suppress automatically exiting
+    input("\n[ PRESS ENTER TO EXIT ]")
+    sys.exit(1)
 
 else:
     try:
