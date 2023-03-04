@@ -1,0 +1,19 @@
+{
+  "miner_settings": {
+    "username": "your-twitch-username",
+    "password": "your-twitch-password",
+    "claim_drops_startup": true
+  },
+  "watch_settings": {
+    "user_to_watch": [
+      "streamer-username09",
+      "streamer-username10",
+      "streamer-username11"
+    ],
+    "followers": true,
+    "blacklist": [
+      "user1",
+      "user2"
+    ]
+  }
+}

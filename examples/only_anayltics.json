@@ -1,0 +1,23 @@
+{
+  "miner_settings": {
+    "username": "your-twitch-username",
+    "password": "your-twitch-password",
+    "claim_drops_startup": true,
+    "enable_analytics": true
+  },
+  "watch_settings": {
+    "followers": true
+  },
+  "logger_settings": {
+    "save": false,
+    "console_level": 0,
+    "file_level": 0,
+    "less": true
+  },
+  "analytics_settings": {
+    "enabled": true,
+    "host": "127.0.0.1",
+    "port": 5000,
+    "refresh": 5
+  }
+}

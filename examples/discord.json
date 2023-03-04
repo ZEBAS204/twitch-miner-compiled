@@ -1,0 +1,34 @@
+{
+  "miner_settings": {
+    "username": "your-twitch-username",
+    "password": "your-twitch-password",
+    "claim_drops_startup": true
+  },
+  "watch_settings": {
+    "followers": true
+  },
+  "logger_settings": {
+    "save": false,
+    "discord_settings": {
+      "webhook_api": "https://discord.com/api/webhooks/0123456789/0a1B2c3D4e5F6g7H8i9J",
+      "events": [
+        "STREAMER_ONLINE",
+        "STREAMER_OFFLINE",
+        "GAIN_FOR_RAID",
+        "GAIN_FOR_CLAIM",
+        "GAIN_FOR_WATCH",
+        "BET_WIN",
+        "BET_LOSE",
+        "BET_REFUND",
+        "BET_FILTERS",
+        "BET_GENERAL",
+        "BET_FAILED",
+        "BET_START",
+        "BONUS_CLAIM",
+        "JOIN_RAID",
+        "DROP_CLAIM",
+        "DROP_STATUS"
+      ]
+    }
+  }
+}
