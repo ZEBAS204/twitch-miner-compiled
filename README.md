@@ -101,16 +101,16 @@ $ cd twitch-miner-compiled
 $ python -m venv venv
 
 # Activate virtual environment
-$ source venv/Scripts/Activate
+$ source venv/bin/activate
 
 # Install dependencies
-$ py -m pip install -r requirements.txt
+$ python -m pip install -r requirements.txt
 
 # Download TwitchChannelPointsMiner's scripts
 $ ./download_directory.sh
 
 # Run the script locally
-$ py TwitchFarm.py
+$ python TwitchFarm.py
 
 # To compile the python script
 $ ./compile.sh
