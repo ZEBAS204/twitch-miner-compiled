@@ -1,2 +1,2 @@
-pyinstaller==4.9
+pyinstaller
 simplejson
