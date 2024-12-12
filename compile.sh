@@ -7,10 +7,10 @@ function compile {
 
     #* Currently, I'm using the spec file to rename the executable with the OS and architecture
     #* Yes, the spec file is a python script
-    pyinstaller TwitchFarm.spec
+    python -m PyInstaller TwitchFarm.spec
 
     # Remove the Build folder
-    rm -r "build"
+    rm -rf "build"
 }
 
 if [[ -z "$VIRTUAL_ENV" ]]; then
