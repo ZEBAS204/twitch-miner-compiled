@@ -1,12 +1,2 @@
 pyinstaller==4.9
-simplejson==3.17.6
-websocket-client
-python-dateutil
-requests
-emoji
-millify
-colorama
-flask
-irc
-pandas
-pytz
+simplejson
