@@ -38,9 +38,9 @@ jobs:
       # Use virtual environment
       - name: Use Virtual Environment
         run: |
+          python -m venv venv
           ${{ matrix.os == 'windows-latest' && '.\\venv\\Scripts\\activate' || 'source venv/bin/activate' }}
           pip install --upgrade pip
-        shell: ${{ matrix.os == 'windows-latest' && 'cmd' || 'bash' }}
 
       # Install dependencies
       - name: Install Dependencies
