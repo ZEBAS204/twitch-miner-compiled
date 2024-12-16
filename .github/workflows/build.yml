@@ -40,7 +40,7 @@ jobs:
         run: |
           python -m venv venv
           source venv/bin/activate
-        shell: bash
+        shell: bash -c
 
       # Install dependencies
       - name: Install Dependencies
