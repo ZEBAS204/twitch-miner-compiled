@@ -35,6 +35,12 @@ jobs:
           ./download_directory.sh
         shell: bash
 
+      # Use virtual environment
+      - name: Install Dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+
       # Install dependencies
       - name: Install Dependencies
         run: |
