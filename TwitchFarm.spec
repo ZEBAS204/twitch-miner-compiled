@@ -5,11 +5,16 @@ import sysconfig
 block_cipher = None
 
 added_files = [
-    ('settings.json', '.')
+    ('settings.json', '.'),
+    ('TwitchChannelPointsMiner/assets/*', 'assets'),
+    # Dependencies
+    ('venv/Lib/site-packages/irc/*.txt', 'irc'),
+    ('venv/Lib/site-packages/emoji/unicode_codes/*.json', 'emoji/unicode_codes'),
+    ('venv/Lib/site-packages/dateutil/zoneinfo/*.tar.gz', 'dateutil\zoneinfo'),
 ]
 
 a = Analysis(['TwitchFarm.py'],
-             pathex=[],
+             pathex=['venv/Lib'],
              binaries=[],
              datas=added_files,
              hiddenimports=[],
