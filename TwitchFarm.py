@@ -25,6 +25,22 @@ from TwitchChannelPointsMiner.classes.entities.Streamer import (
     StreamerSettings,
 )
 
+"""
+Monkeypatch `os.path.join` to fix the analytics server issue.
+At `TwitchChannelPointsMiner\classes\AnalyticsServer.py:214`, the absolute path of the executable is used.
+To maintain portability, we intercept and redirect this path to PyInstaller's directory.
+"""
+original_os_path_join = os.path.join
+
+
+def custom_join(*args):
+    if "assets" in args:
+        # * Replace this path with the correct one in the bundled directory
+        return original_os_path_join(sys._MEIPASS, *args[-1:])
+    return original_os_path_join(*args)
+
+
+os.path.join = custom_join
 
 def resource_path(relative_path):
     # * Get absolute path to resource, works for dev and for PyInstaller
