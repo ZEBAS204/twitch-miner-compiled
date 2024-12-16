@@ -13,11 +13,13 @@ mkdir -p tmp
 # "TwitchChannelPointsMiner" automatically into the root directory.
 curl -L https://api.github.com/repos/${repo}/tarball | tar -xz -C tmp --wildcards \
     "*/TwitchChannelPointsMiner" \
+    "*/assets" \
     "*/requirements.txt" \
     --strip-components=1
 
 # Move requirements.txt into TwitchChannelPointsMiner
 mv tmp/requirements.txt tmp/TwitchChannelPointsMiner/
+mv tmp/assets tmp/TwitchChannelPointsMiner/
 
 # Finally move the TwitchChannelPointsMiner folder into the root directory
 mv tmp/TwitchChannelPointsMiner .
