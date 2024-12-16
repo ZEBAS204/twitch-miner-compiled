@@ -40,7 +40,6 @@ jobs:
         run: |
           python -m venv venv
           ${{ matrix.os == 'windows-latest' && '.\\venv\\Scripts\\activate' || 'source venv/bin/activate' }}
-          pip install --upgrade pip
 
       # Install dependencies
       - name: Install Dependencies
