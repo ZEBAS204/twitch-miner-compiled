@@ -1,20 +1,25 @@
 # -*- mode: python ; coding: utf-8 -*-
 
 import sysconfig
+from PyInstaller.utils.hooks import get_package_paths
 
 block_cipher = None
+
+def get_PKG(name, path):
+    # Assuming get_package_paths() is already defined elsewhere
+    return get_package_paths(name)[1] + path
 
 added_files = [
     ('settings.json', '.'),
     ('TwitchChannelPointsMiner/assets/*', 'assets'),
     # Dependencies
-    ('venv/Lib/site-packages/irc/*.txt', 'irc'),
-    ('venv/Lib/site-packages/emoji/unicode_codes/*.json', 'emoji/unicode_codes'),
-    ('venv/Lib/site-packages/dateutil/zoneinfo/*.tar.gz', 'dateutil\zoneinfo'),
+    (get_PKG('irc', '/*.txt'), 'irc'),
+    (get_PKG('emoji', '/unicode_codes/*.json'), 'emoji/unicode_codes'),
+    (get_PKG('dateutil', '/zoneinfo/*.tar.gz'), 'dateutil\zoneinfo'),
 ]
 
 a = Analysis(['TwitchFarm.py'],
-             pathex=['venv/Lib'],
+             pathex=[],
              binaries=[],
              datas=added_files,
              hiddenimports=[],
