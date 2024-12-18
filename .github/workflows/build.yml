@@ -51,7 +51,7 @@ jobs:
       # using pyinstaller. No virtual environment needed.
       - name: Build script
         run: |
-          pyinstaller TwitchFarm.spec
+          python -m PyInstaller TwitchFarm.spec
 
       # Uploads binaries to release
       - name: Release binaries
