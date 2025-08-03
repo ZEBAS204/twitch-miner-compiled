@@ -71,7 +71,7 @@ The main difference between the `settings.json` file with the actual python-writ
   * Reminder: new functions need to be manually added.
 
 * **Logger**
-  * The log level (used in `file_level`, `console_level`, etc) is written as an integer. For example, `logging.DEBUG` becomes `10`, `logging.INFO` becomes `20`, etc.
+  * The log level (used in `file_level`, `console_level`, etc) is written as a string or integer. For example, `logging.DEBUG` becomes `10` or `DEBUG`, `logging.INFO` becomes `20` or `INFO`, etc.
   * Logging will always follow the [logging module of python](https://docs.python.org/3/library/logging.html#logging-levels):
     * `CRITICAL`: 50
     * `ERROR`: 40
@@ -104,6 +104,7 @@ $ python -m venv venv
 $ source venv/bin/activate
 
 # Install dependencies
+$ python -m pip install -r ./TwitchChannelPointsMiner/requirements.txt
 $ python -m pip install -r requirements.txt
 
 # Download TwitchChannelPointsMiner's scripts
@@ -120,6 +121,17 @@ $ ./clean.sh
 
 # If Analytics server is enabled, will initialize in the <http://localhost:5000>
 ```
+
+### 🩹 Patching the main project
+
+If you want to patch any code of the main project, you can do so by editing the files inside the `TwitchChannelPointsMiner` folder by:
+
+  1. Track the file with git (eg. `git add TwitchChannelPointsMiner/some_file.py -f`)
+  2. Edit the file as you wish
+  3. Create the patch (eg. `git diff TwitchChannelPointsMiner/some_file.py > patches/some_file.py.patch`)
+  4. Unstage the changes (eg. `git reset TwitchChannelPointsMiner/some_file.py`)
+  5. Patches will be applied automatically when running `download_directory.sh`
+  6. If you want to apply the patch manually, you can run `git apply patches/some_file.py.patch`
 
 ### 🛠️ Compiling
 
