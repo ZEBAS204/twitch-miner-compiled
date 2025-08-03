@@ -1,0 +1,31 @@
+diff --git a/TwitchChannelPointsMiner/classes/entities/Bet.py b/TwitchChannelPointsMiner/classes/entities/Bet.py
+index 9d65b78..8e2fd59 100644
+--- a/TwitchChannelPointsMiner/classes/entities/Bet.py
++++ b/TwitchChannelPointsMiner/classes/entities/Bet.py
+@@ -69,7 +69,7 @@ class FilterCondition(object):
+ 
+     def __init__(self, by=None, where=None, value=None, decision=None):
+         self.by = by
+-        self.where = where
++        self.where = Condition[where.upper()] if isinstance(where, str) else where
+         self.value = value
+ 
+     def __repr__(self):
+@@ -101,7 +101,7 @@ class BetSettings(object):
+         delay: float = None,
+         delay_mode: DelayMode = None,
+     ):
+-        self.strategy = strategy
++        self.strategy = Strategy[strategy.upper()] if isinstance(strategy, str) else strategy
+         self.percentage = percentage
+         self.percentage_gap = percentage_gap
+         self.max_points = max_points
+@@ -109,7 +109,7 @@ class BetSettings(object):
+         self.stealth_mode = stealth_mode
+         self.filter_condition = filter_condition
+         self.delay = delay
+-        self.delay_mode = delay_mode
++        self.delay_mode = DelayMode[delay_mode.upper()] if isinstance(delay_mode, str) else delay_mode
+ 
+     def default(self):
+         self.strategy = self.strategy if self.strategy is not None else Strategy.SMART

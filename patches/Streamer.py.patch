@@ -1,0 +1,13 @@
+diff --git a/TwitchChannelPointsMiner/classes/entities/Streamer.py b/TwitchChannelPointsMiner/classes/entities/Streamer.py
+index 23ada3d..203bffc 100644
+--- a/TwitchChannelPointsMiner/classes/entities/Streamer.py
++++ b/TwitchChannelPointsMiner/classes/entities/Streamer.py
+@@ -45,7 +45,7 @@ class StreamerSettings(object):
+         self.watch_streak = watch_streak
+         self.community_goals = community_goals
+         self.bet = bet
+-        self.chat = chat
++        self.chat = ChatPresence[chat.upper()] if isinstance(chat, str) else chat
+ 
+     def default(self):
+         for name in [

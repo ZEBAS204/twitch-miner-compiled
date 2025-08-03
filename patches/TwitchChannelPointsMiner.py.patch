@@ -1,0 +1,21 @@
+diff --git a/TwitchChannelPointsMiner/TwitchChannelPointsMiner.py b/TwitchChannelPointsMiner/TwitchChannelPointsMiner.py
+index c1b5ddd..7209e22 100644
+--- a/TwitchChannelPointsMiner/TwitchChannelPointsMiner.py
++++ b/TwitchChannelPointsMiner/TwitchChannelPointsMiner.py
+@@ -208,6 +208,16 @@ class TwitchChannelPointsMiner:
+         followers: bool = False,
+         followers_order: FollowersOrder = FollowersOrder.ASC,
+     ):
++        # Apply and validate strings to enums
++        if isinstance(followers_order, str):
++            followers_order = FollowersOrder.__members__.get(followers_order.upper(), FollowersOrder.ASC)
++        self.priority = [
++            p if isinstance(p, Priority) else Priority[p.upper()]
++            for p in self.priority
++            if isinstance(p, Priority)
++            or (isinstance(p, str) and p.upper() in Priority.__members__)
++        ] or [Priority.STREAK, Priority.DROPS, Priority.ORDER]
++
+         self.run(streamers=streamers, blacklist=blacklist, followers=followers)
+ 
+     def run(

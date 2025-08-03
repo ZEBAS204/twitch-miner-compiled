@@ -26,3 +26,6 @@ mv tmp/TwitchChannelPointsMiner .
 
 # Clean up
 rm -rf tmp
+
+# apply all git patches
+git apply --ignore-whitespace --reject --whitespace=fix patches/*.patch

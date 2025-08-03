@@ -12,7 +12,7 @@
 			"ORDER",
 			"SUBSCRIBED",
 			"POINTS_ASCENDING",
-			"POINTS_DESCEDING"
+			"POINTS_DESCENDING"
 		]
 	},
 
@@ -23,7 +23,7 @@
 			"streamer-username11"
 		],
 		"followers": true,
-		"followers_order": "FollowersOrder.ASC",
+		"followers_order": "ASC",
 		"blacklist": ["user1", "user2"]
 	},
 
@@ -31,10 +31,12 @@
 		"make_predictions": true,
 		"follow_raid": true,
 		"claim_drops": true,
+		"claim_moments": true,
+		"community_goals": false,
 		"watch_streak": true,
 		"chat": "ALWAYS",
 		"bet": {
-			"strategy": "Strategy.SMART",
+			"strategy": "SMART",
 			"percentage": 5,
 			"percentage_gap": 20,
 			"max_points": 50000,
@@ -52,9 +54,9 @@
 
 	"logger_settings": {
 		"save": false,
-		"console_level": 20,
-		"file_level": 10,
-		"emoji": false,
+		"console_level": "INFO",
+		"file_level": "INFO",
+		"emoji": true,
 		"auto_clear": true,
 		"less": false,
 		"colored": true,

@@ -43,6 +43,7 @@ def custom_join(*args):
 
 os.path.join = custom_join
 
+
 def resource_path(relative_path):
     # * Get absolute path to resource, works for dev and for PyInstaller
     # * https://stackoverflow.com/a/44352931
@@ -112,6 +113,14 @@ def safe_dict(
     # We know the dictionary is not empty and if not key_to_extract was set,
     # return the same dictionary to avoid any error.
     if not key_to_extract:
+        if ignored_keys:
+            # To avoid any mutation of the current dictionary,
+            # return a new dictionary with the filtered keys
+            temp = object.copy()
+            for key in ignored_keys:
+                if key in temp:
+                    del temp[key]
+            return temp
         return object
 
     if key_to_extract in object and not isEmpty(
@@ -172,8 +181,14 @@ else:
                 LoggerSettings(
                     # * Color palette is a function
                     # * Telegram is a function
-                    safe_dict(
-                        dLogger, ignored_keys=["color_palette", "telegram_settings"]
+                    **safe_dict(
+                        dLogger,
+                        ignored_keys=[
+                            "color_palette",
+                            "telegram_settings",
+                            "discord_settings",
+                        ],
+                        default={},
                     ),
                     #! If no color_palette is defined, and we create the variable
                     #! an error will be raised as is REQUIRED if defined
@@ -187,23 +202,17 @@ else:
                         dLogger, key_to_extract="discord_settings", callback=Discord
                     ),
                 ),
-                # ! logger_settings default value
-                LoggerSettings(None),
             ),
             streamer_settings=isDefined(
                 dStreamer,
                 StreamerSettings(
                     # * Bet is function
-                    safe_dict(dStreamer, ignored_keys=["bet"]),
+                    **safe_dict(dStreamer, ignored_keys=["bet"], default={}),
                     bet=isDefined(
                         dS_bet,
                         BetSettings(
                             # * filter_condition is function
-                            safe_dict(dS_bet, ignored_keys=["filter_condition"]),
-                            filter_condition=isDefined(
-                                dS_bet.get("filter_condition"),
-                                FilterCondition(safe_dict(dLogger, "filter_condition")),
-                            ),
+                            **dS_bet
                         ),
                     ),
                 ),
@@ -255,8 +264,5 @@ else:
         # * user-friendly and mainly prevent closing the console automatically.
         print(f"Script exited with return code {err.code}")
 
-
-# **********************************
-# * Suppress automatically exiting *
-# **********************************
+# Suppress automatically exiting
 input("\n[ PRESS ENTER TO EXIT ]")
